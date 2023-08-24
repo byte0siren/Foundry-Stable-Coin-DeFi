@@ -44,6 +44,35 @@ contract Handler is StdInvariant, Test {
         vm.stopPrank();
     }
 
+    function redeemCollateralHandler(uint256 collateralSeed, uint256 redeemAmountCollateral) public {
+        ERC20Mock collateral = _getCollateralAddressFromSeedHandler(collateralSeed);
+        uint256 maxCollateralToRedeem = dscEngine.getCollateralBalanceOfUser(msg.sender, address(collateral));
+
+        redeemAmountCollateral = bound(redeemAmountCollateral, 0, maxCollateralToRedeem);
+        if (redeemAmountCollateral == 0) {
+            return;
+        }
+
+        vm.prank(msg.sender);
+        dscEngine.redeemCollateral(address(collateral), redeemAmountCollateral);
+    }
+
+    function mintDscHandler(uint256 MINT_AMOUNT) public {
+        (uint256 totalDscMinted, uint256 collateralValueInUsd) = dscEngine.getAccountInformation(msg.sender);
+        int256 maxDscToMint = (int256(collateralValueInUsd) / 2) - int256(totalDscMinted);
+        if (maxDscToMint < 0) {
+            return;
+        }
+        MINT_AMOUNT = bound(MINT_AMOUNT, 0, uint256(maxDscToMint));
+
+        if (MINT_AMOUNT == 0) {
+            return;
+        }
+
+        vm.prank(msg.sender);
+        dscEngine.mintDsc(MINT_AMOUNT);
+    }
+
     function _getCollateralAddressFromSeedHandler(uint256 collateralSeed) private view returns (ERC20Mock) {
         if (collateralSeed % 2 == 0) return weth;
         return wbtc;
