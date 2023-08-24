@@ -12,3 +12,6 @@ docs/
 
 # Dotenv file
 .env
+
+# Deprecated files
+test/invariant/OpenInvariantsTest.t.sol

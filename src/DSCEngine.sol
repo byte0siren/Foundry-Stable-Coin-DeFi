@@ -53,7 +53,7 @@ contract DSCEngine is ReentrancyGuard {
     error DSCEngine__NeedsMoreThanZero();
     error DSCEngine__TokenAddressesAndPriceFeedAddressesAmountsDontMatch();
     error DSCEngine__TokenNotAllowed();
-    error DSCEngine__BreaksHealthFactor(uint256 healthFactorValue);
+    error DSCEngine__BreaksHealthFactor();
     error DSCEngine__TransferFailed();
     error DSCEngine__HealthFactorIsOkay();
     error DSCEngine__HealthFactorNotImproved();
@@ -254,9 +254,9 @@ contract DSCEngine is ReentrancyGuard {
             revert DSCEngine__HealthFactorNotImproved();
         }
 
-        revertifHealthFactorBreaks(msg.sender);
-
         emit CollateralLiquidated(user);
+
+        revertifHealthFactorBreaks(msg.sender);
     }
 
     ///////////////////
@@ -284,6 +284,12 @@ contract DSCEngine is ReentrancyGuard {
         }
         i_dsc.burn(amountDscToBurn);
     }
+
+    // Helper
+    // function setHealthFactor(address user, uint256 healthFactor) public returns (uint256) {
+    //     mockHealthFactor[user] = healthFactor;
+    //     return mockHealthFactor[user];
+    // }
 
     //////////////////////////////
     // Private & Internal View & Pure Functions
@@ -323,10 +329,10 @@ contract DSCEngine is ReentrancyGuard {
         return (collateralAdjustedForThreshold * 1e18) / totalDscMinted;
     }
 
-    function revertifHealthFactorBreaks(address user) internal view {
+    function revertifHealthFactorBreaks(address user) public view {
         uint256 userHealthFactor = _healthFactor(user);
         if (userHealthFactor < MIN_HEALTH_FACTOR) {
-            revert DSCEngine__BreaksHealthFactor(userHealthFactor);
+            revert DSCEngine__BreaksHealthFactor();
         }
     }
 
@@ -372,5 +378,17 @@ contract DSCEngine is ReentrancyGuard {
             totalCollateralValueInUsd += _getUsdValue(token, amount);
         }
         return totalCollateralValueInUsd;
+    }
+
+    function getMinHealthFactor() external pure returns (uint256) {
+        return MIN_HEALTH_FACTOR;
+    }
+
+    function getCollateralTokens() external view returns (address[] memory) {
+        return s_collateralTokens;
+    }
+
+    function getHealthFactor(address user) public view returns (uint256) {
+        return _healthFactor(user);
     }
 }
