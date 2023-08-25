@@ -49,7 +49,7 @@ https://book.getfoundry.sh/
 <!-- ABOUT -->
 # About Project
 
-## Foundry Smart Contract Lottery 
+## DeFi Decentralised Stable Coin (DSC)
 
 **DeFi StableCoin (DSC)** is a Web3 project which consists of a stable coin backed by **weth** and **wbtc** collateral assets on a smart contract built using  **Foundry** framework,  **Solidity** programming and leverages **Chainlink** decentralised oracle.
 
