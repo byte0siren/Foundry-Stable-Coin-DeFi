@@ -8,8 +8,8 @@ import {DSCEngine} from "../../src/DSCEngine.sol";
 import {DecentralisedStableCoin} from "../../src/DecentralisedStableCoin.sol";
 import {Test, console} from "forge-std/Test.sol";
 import {StdInvariant} from "forge-std/StdInvariant.sol";
-// import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {ERC20Mock} from "@openzeppelin/contracts/mocks/ERC20Mock.sol";
+import {MockV3Aggregator} from "../mocks/MockV3Aggregator.sol";
 
 contract Handler is StdInvariant, Test {
     DSCEngine dscEngine;
@@ -18,6 +18,12 @@ contract Handler is StdInvariant, Test {
     ERC20Mock wbtc;
 
     uint256 MAX_AMOUNT_COLLATERAL_SIZE = type(uint96).max;
+    uint256 public timesMintDscHandlerIsCalled;
+    uint256 public collateralValueInUsdDEBUG;
+
+    address[] public usersWithCollateralDeposited;
+
+    MockV3Aggregator public ethUsdPriceFeed;
 
     constructor(DSCEngine _dscEngine, DecentralisedStableCoin _dsc) {
         dscEngine = _dscEngine;
@@ -27,6 +33,8 @@ contract Handler is StdInvariant, Test {
 
         weth = ERC20Mock(collateralTokens[0]);
         wbtc = ERC20Mock(collateralTokens[1]);
+
+        ethUsdPriceFeed = MockV3Aggregator(dscEngine.getCollateralTokenPriceFeed(address(weth)));
     }
 
     // Handler based tests provides a way to perform a specific path for fuzz tests
@@ -42,6 +50,7 @@ contract Handler is StdInvariant, Test {
         dscEngine.depositCollateral(address(collateral), amountCollateral);
 
         vm.stopPrank();
+        usersWithCollateralDeposited.push(msg.sender);
     }
 
     function redeemCollateralHandler(uint256 collateralSeed, uint256 redeemAmountCollateral) public {
@@ -57,9 +66,16 @@ contract Handler is StdInvariant, Test {
         dscEngine.redeemCollateral(address(collateral), redeemAmountCollateral);
     }
 
-    function mintDscHandler(uint256 MINT_AMOUNT) public {
-        (uint256 totalDscMinted, uint256 collateralValueInUsd) = dscEngine.getAccountInformation(msg.sender);
+    function mintDscHandler(uint256 MINT_AMOUNT, uint256 USER_ADDREESS_SEED) public {
+        // msg.sender
+        if (usersWithCollateralDeposited.length == 0) {
+            return;
+        }
+        address sender = usersWithCollateralDeposited[USER_ADDREESS_SEED % usersWithCollateralDeposited.length];
+
+        (uint256 totalDscMinted, uint256 collateralValueInUsd) = dscEngine.getAccountInformation(sender);
         int256 maxDscToMint = (int256(collateralValueInUsd) / 2) - int256(totalDscMinted);
+        collateralValueInUsdDEBUG += collateralValueInUsd;
         if (maxDscToMint < 0) {
             return;
         }
@@ -69,9 +85,16 @@ contract Handler is StdInvariant, Test {
             return;
         }
 
-        vm.prank(msg.sender);
+        vm.prank(sender);
         dscEngine.mintDsc(MINT_AMOUNT);
+        timesMintDscHandlerIsCalled++;
     }
+
+    // This breaks our protocol invariants - known issue. 
+    // function updateCollateralPriceHandler(uint96 newPrice) public {
+    //     int256 newPriceInt = int256(uint256(newPrice));
+    //     ethUsdPriceFeed.updateAnswer(newPriceInt);
+    // }
 
     function _getCollateralAddressFromSeedHandler(uint256 collateralSeed) private view returns (ERC20Mock) {
         if (collateralSeed % 2 == 0) return weth;

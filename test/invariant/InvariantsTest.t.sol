@@ -33,7 +33,6 @@ contract InvariantsTest is StdInvariant, Test {
         // Targets Handler -> Handler Contract
         handler = new Handler(dscEngine, dsc);
         targetContract(address(handler));
-        // targetContract(address(dscEngine));
     }
 
     function invariant_protocolMustHaveMoreCollateralValueThanTotalSupply() public view {
@@ -48,7 +47,23 @@ contract InvariantsTest is StdInvariant, Test {
         console.log("WETH Value: ", wethValue);
         console.log("WBTC Value: ", wbtcValue);
         console.log("TOTAL Supply: ", totalDSCSupply);
+        // console.log("Times Mint Handler Is Called: ", handler.timesMintDscHandlerIsCalled());
+        // console.log("COLLATERAL VALUE OF MSG SENDER:", handler.collateralValueInUsdDEBUG());
 
         assert(wethValue + wbtcValue >= totalDSCSupply);
+    }
+
+    function invariant_gettersCantRevert() public view {
+        dscEngine.getAdditionalFeedPrecision();
+        dscEngine.getCollateralTokens();
+        dscEngine.getLiquidationBonus();
+        dscEngine.getMinHealthFactor();
+        dscEngine.getPrecision();
+        dscEngine.getDsc();
+        // dscEngine.getLiquidationThreshold();
+        // dscEngine.getTokenAmountFromUsd();
+        // dscEngine.getCollateralTokenPriceFeed();
+        // dscEngine.getCollateralBalanceOfUser();
+        // getAccountCollateralValue();
     }
 }
