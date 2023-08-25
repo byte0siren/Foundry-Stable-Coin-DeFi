@@ -1,6 +1,6 @@
 ## Foundry
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development.**
 
 Foundry consists of:
 
@@ -13,42 +13,126 @@ Foundry consists of:
 
 https://book.getfoundry.sh/
 
+<a name="readme-top"></a>
+
+<!-- PROJECT INFO -->
+## Project Info
+
+<div>
+  <h3 align="center">DeFi Stable Coin built on Solidity based Smart contracts </h3>
+</div>
+
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-project">About Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#requirements">Requirements</a></li>
+      </ul>
+    </li>
+    <li><a href="#quickstart">Quickstart</a></li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#testing">Testing</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#license">License</a></li>
+  </ol>
+</details>
+
+
+<!-- ABOUT -->
+# About Project
+
+## Foundry Smart Contract Lottery 
+
+**DeFi StableCoin (DSC)** is a Web3 project which consists of a stable coin backed by **weth** and **wbtc** collateral assets on a smart contract built using  **Foundry** framework,  **Solidity** programming and leverages **Chainlink** decentralised oracle.
+
+The project is a part of Lesson 12 in Patrick Collins's (@PatrickAlphaC) Foundry Solidity course:
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## Built With
+
+[![Solidity][soliditylang]][solidity-url]
+[![Ethereum][ethereum.org]][ethereum-url]
+
+[![Foundry][getfoundry]][foundry-url]
+[![Openzeppelin][openzeppelin.com]][openzeppelin-url]
+[![ChainLink][chain.link]][chainlink-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## Getting Started
+
+## Requirements
+
+- [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+  - You'll know you did it right if you can run `git --version` and you see a response like `git version x.x.x`
+- [foundry](https://getfoundry.sh/)
+  - You'll know you did it right if you can run `forge --version` and you see a response like `forge 0.2.0 (816e00b 2023-03-16T00:05:26.396218Z)`
+
+## Quickstart
+
+```shell
+$ git clone https://github.com/itznishant/Foundry-Stable-Coin-DeFi/
+$ cd Foundry-Fund-Me
+$ forge compile
+```
+
 ## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
 
 ### Format
 
 ```shell
 $ forge fmt
 ```
-
-### Gas Snapshots
+### Compile
 
 ```shell
-$ forge snapshot
+$ forge compile
 ```
 
-### Anvil
+### Deploy:
 
 ```shell
-$ anvil
+$ forge script scripts/DeployDSC.s.sol
 ```
 
-### Deploy
+
+### Testing
+
+This repo covers Unit & Handler based Invariant tests. <br /> To run **ALL** tests, use:
 
 ```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+$ forge test
+```
+
+or 
+
+
+To only run tests matching specified regex pattern, use:
+
+```shell
+$ forge test --mt testFunctionName -vvv
+```
+or
+
+```shell
+$ forge test --match-test testFunctionName -vvv
+```
+
+### Test Coverage
+
+```shell
+$ forge coverage
 ```
 
 ### Cast
@@ -64,3 +148,36 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+
+## Contact
+
+**Nishant Vemulakonda**
+
+[![Twitter Follow itznish](https://img.shields.io/twitter/follow/itznish?style=for-the-badge&logo=twitter&logoColor=white&labelColor=1DA1F2&color=1DA1F2)](https://twitter.com/itznish)
+
+[![Nishant Vemulakonda LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://in.linkedin.com/in/nishant-vemulakonda)
+
+[![Nishant Vemulakonda GitHub followers](https://img.shields.io/github/followers/itznishant?label=GITHUB&style=for-the-badge&logo=github&logoColor=white&labelColor=black&color=blue)](https://github.com/itznishant/)
+
+**Linktree:** [@nishant.social](https://linktr.ee/nishant.social)
+
+**Web3Career:** [@nishantv](https://web3.career/@nishantv)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+[soliditylang]: https://img.shields.io/badge/SOLIDITY-black?style=for-the-badge&logo=solidity&logoColor=white
+[solidity-url]: https://soliditylang.org/
+[getfoundry]: https://img.shields.io/badge/FOUNDRY-gray?style=for-the-badge&logo=foundry&logoColor=white
+[foundry-url]: https://getfoundry.sh/
+[ethereum.org]: https://img.shields.io/badge/ethereum-smart%20contracts-red?style=for-the-badge&logo=ethereum&logoColor=white
+[ethereum-url]: https://ethereum.org/
+[chain.link]: https://img.shields.io/badge/CHAINLINK-darkblue?style=for-the-badge&logo=chainlink&logoColor=white
+[chainlink-url]: https://chain.link/
+[openzeppelin.com]: https://img.shields.io/badge/openzeppelin-4b43e8?style=for-the-badge&logo=openzeppelin&logoColor=white
+[openzeppelin-url]: https://www.openzeppelin.com/
