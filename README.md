@@ -82,7 +82,7 @@ The project is a part of Lesson 12 in Patrick Collins's (@PatrickAlphaC) Foundry
 ## Quickstart
 
 ```shell
-$ git clone https://github.com/itznishant/Foundry-Stable-Coin-DeFi/
+$ git clone https://github.com/byte0siren/Foundry-Stable-Coin-DeFi/
 $ cd Foundry-Fund-Me
 $ forge compile
 ```
@@ -148,22 +148,6 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
-
-## Contact
-
-**Nishant Vemulakonda**
-
-[![Twitter Follow itznish](https://img.shields.io/twitter/follow/itznish?style=for-the-badge&logo=twitter&logoColor=white&labelColor=1DA1F2&color=1DA1F2)](https://twitter.com/itznish)
-
-[![Nishant Vemulakonda LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://in.linkedin.com/in/nishant-vemulakonda)
-
-[![Nishant Vemulakonda GitHub followers](https://img.shields.io/github/followers/itznishant?label=GITHUB&style=for-the-badge&logo=github&logoColor=white&labelColor=black&color=blue)](https://github.com/itznishant/)
-
-**Linktree:** [@nishant.social](https://linktr.ee/nishant.social)
-
-**Web3Career:** [@nishantv](https://web3.career/@nishantv)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## License
 
